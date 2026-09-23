@@ -6,6 +6,7 @@ export default function App() {
   const [status, setStatus] = useState('loading')
   const [products, setProducts] = useState([])
   const [stats, setStats] = useState(null)
+  const [sources, setSources] = useState(null)
   const [error, setError] = useState('')
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState('all')
@@ -18,6 +19,7 @@ export default function App() {
       .then((data) => {
         setProducts(data.products)
         setStats(data.stats)
+        setSources(data.sources)
         setStatus('ready')
       })
       .catch((err) => {
@@ -137,11 +139,40 @@ export default function App() {
         )}
       </main>
 
+      <section id="sources" className="sources" aria-labelledby="sources-title">
+        <div className="sources__inner">
+          <h2 id="sources-title" className="sources__title">
+            Статус API магазинов
+          </h2>
+          <p className="sources__lead">
+            Проверили официальные и публичные источники. Открытого API каталога цен у розничных
+            сетей нет — Opti сейчас работает на демо-данных. Подробности: docs/STORE_APIS.md.
+          </p>
+          <ul className="sources__list">
+            {(sources?.stores || []).map((store) => (
+              <li key={store.id} className="source-row">
+                <div>
+                  <h3>{store.name}</h3>
+                  <p>{store.note}</p>
+                </div>
+                <div className="source-row__meta">
+                  <span className="source-badge source-badge--demo">демо</span>
+                  {store.official && (
+                    <a href={store.official} target="_blank" rel="noreferrer">
+                      Официальный канал
+                    </a>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       <footer className="footer">
         <p>
-          <strong>Opti</strong> — демо-агрегатор. Каталоги сетей сейчас заданы демо-данными: у
-          Пятёрочки, Ашана и Магнита нет публичного открытого API. Архитектура готова к подключению
-          партнёрских фидов или согласованных источников.
+          <strong>Opti</strong> — демо-агрегатор. Публичного API цен нет; легальный путь — партнёрский
+          фид или data-провайдер. Неофициальные scrapers сайтов сетей в продукт не подключаем.
         </p>
       </footer>
     </div>

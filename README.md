@@ -17,6 +17,12 @@ npm run dev
 
 Сборка: `npm run build`, превью: `npm run preview`.
 
-## Важно про данные магазинов
+## API магазинов
 
-У сетей нет публичного открытого API каталога. В `src/data/offers.js` лежат реалистичные демо-офферы. Точка расширения — `src/lib/catalog.js` (`fetchAllOffers`): сюда подключаются партнёрские фиды или согласованные источники.
+Публичного открытого API каталога цен у этих сетей **нет**. Результаты проверки — в [`docs/STORE_APIS.md`](docs/STORE_APIS.md):
+
+- **Пятёрочка / X5** — кабинет поставщика ([partner.x5.ru](https://partner.x5.ru/)), API «в сеть», не публичный прайс; `5ka.ru` отдаёт 403.
+- **Магнит** — розничного публичного API нет; есть [Seller API Магнит Маркета](https://magnit-tech.github.io/market-partner-api/) для продавцов.
+- **Ашан** — публичного API нет; сайт за QRATOR, данные через коммерческие фиды.
+
+Демо-офферы: `src/data/offers.js`. Точка расширения: `src/lib/catalog.js` → `fetchAllOffers`.
